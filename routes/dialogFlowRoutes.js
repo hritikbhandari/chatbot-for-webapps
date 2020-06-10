@@ -1,35 +1,22 @@
-const dialogFlow = require('dialogflow');
-const config = require('../config/keys');
+'use strict';
 
-const sessionClient = new dialogFlow.SessionsClient();
-
-const sessionPath = sessionClient.sessionPath(config.googleProjectID, config.dialogFlowSessionID);
+const chatbot = require('../chatbot/chatbot');
 
 module.exports = app => {
 
     app.get('/', (req, res) => {
-        res.send({ 'hello': 'hritik' })
+        res.send({ 'hello': 'Johnny' })
     });
 
-    app.post('/api/df-text_query', async(req, res) => {
+    app.post('/api/df_text_query', async(req, res) => {
 
-        const request = {
-            session: sessionPath,
-            queryInput: {
-                text: {
-                    text: req.body.text,
-                    languageCode: config.dialogFlowSessionLanguageCode
-                }
-            }
-        };
-        let responses = await sessionClient
-            .detectIntent(request);
-
-
+        let responses = await chatbot.textQuery(req.body.text, req.body.parameters);
         res.send(responses[0].queryResult);
+
     });
 
-    app.post('/api/df_event_query', (req, res) => {
-        res.send({ 'do': 'event query' })
+    app.post('/api/df_event_query', async(req, res) => {
+        let responses = await chatbot.eventQuery(req.body.event, req.body.parameters);
+        res.send(responses[0].queryResult);
     });
 }
