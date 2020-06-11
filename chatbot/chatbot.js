@@ -1,8 +1,7 @@
 'use strict';
 const dialogflow = require('dialogflow');
+const structjson = require('./structjson.js');
 const config = require('../config/keys');
-const structjson = require('./structjson');
-
 
 const projectId = config.googleProjectID;
 const sessionId = config.dialogFlowSessionID;
@@ -10,16 +9,18 @@ const languageCode = config.dialogFlowSessionLanguageCode;
 
 const credentials = {
     client_email: config.googleClientEmail,
-    private_key: config.googlePrivateKey,
+    private_key:
+    config.googlePrivateKey,
 };
 
-const sessionClient = new dialogflow.SessionsClient({ projectId: projectId, credentials: credentials });
-const sessionPath = sessionClient.sessionPath(projectId, sessionId);
+const sessionClient = new dialogflow.SessionsClient({projectId, credentials});
 
 
 module.exports = {
-    textQuery: async function(text, parameters = {}) {
+    textQuery: async function(text, userID, parameters = {}) {
         let self = module.exports;
+        const sessionPath = sessionClient.sessionPath(projectId, sessionId + userID);
+
         const request = {
             session: sessionPath,
             queryInput: {
@@ -43,32 +44,29 @@ module.exports = {
 
     },
 
-
-    eventQuery: async function(event, parameters = {}) {
+    eventQuery: async function(event, userID,  parameters = {}) {
         let self = module.exports;
+        let sessionPath = sessionClient.sessionPath(projectId, sessionId + userID);
+
         const request = {
             session: sessionPath,
             queryInput: {
                 event: {
                     name: event,
-                    parameters: structjson.jsonToStructProto(parameters),
+                    parameters: structjson.jsonToStructProto(parameters), //Dialogflow's v2 API uses gRPC. You'll need a jsonToStructProto method to convert your JavaScript object to a proto struct.
                     languageCode: languageCode,
                 },
-            },
-
+            }
         };
 
         let responses = await sessionClient.detectIntent(request);
         responses = await self.handleAction(responses);
         return responses;
 
-
-
     },
 
 
-
-    handleAction: function(responses) {
+    handleAction: function(responses){
         return responses;
     },
 

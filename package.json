@@ -9,7 +9,9 @@
     },
     "scripts": {
         "start": "node index.js",
-        "backend": "nodemon index.js"
+        "backend": "nodemon index.js",
+        "frontend": "npm run start --prefix client",
+        "dev": "concurrently \"npm run backend\" \"npm run frontend\""
     },
     "author": "Hritik Bhandari",
     "license": "ISC",
@@ -20,6 +22,8 @@
         "structjson": "^1.0.1"
     },
     "devDependencies": {
+        "concurrently": "^5.2.0",
+        "http-proxy-middleware": "^1.0.4",
         "nodemon": "^2.0.4"
     }
 }
