@@ -1,8 +1,8 @@
 import React from 'react';
 
 const Landing = () => ( 
-        <div style={{ textAlign: 'center'}}> <h1> Selling you great stuff! </h1>
-        with a chatbot </div>
+        <div style={{ textAlign: 'center'}}> <h1> Data Science Community Bot </h1>
+        Using NLP to make lives easier. </div>
     )
 
 export default Landing;

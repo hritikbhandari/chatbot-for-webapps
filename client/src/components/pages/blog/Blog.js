@@ -2,9 +2,9 @@ import React from 'react';
 import ItemList from './ItemList';
 
 
-const Shop = () =>  ( 
-        <div> <h2> Shop </h2>
+const Blog = () =>  ( 
+        <div> <h2> Blog </h2>
         <ItemList></ItemList></div>
     )
 
-export default Shop;
+export default Blog;

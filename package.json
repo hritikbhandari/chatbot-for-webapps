@@ -11,14 +11,18 @@
         "start": "node index.js",
         "backend": "nodemon index.js",
         "frontend": "npm run start --prefix client",
-        "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+        "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     },
     "author": "Hritik Bhandari",
     "license": "ISC",
     "dependencies": {
+        "actions-on-google": "^2.12.0",
         "body-parser": "^1.19.0",
         "dialogflow": "^1.2.0",
+        "dialogflow-fulfillment": "^0.6.1",
         "express": "^4.17.1",
+        "mongoose": "^5.9.18",
         "structjson": "^1.0.1"
     },
     "devDependencies": {
